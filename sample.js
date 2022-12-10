@@ -23,9 +23,7 @@ const sample = function(arr, num = 1, withoutReplacement = true) {
     }
   }
 
-  // Convert the set to an array, sort the array according to the original position of the items in the input array,
-  // and return the sorted array.
-  return [...items].sort((a, b) => arr.indexOf(a) - arr.indexOf(b));
+return [...items];
 }
 
 export default sample;
