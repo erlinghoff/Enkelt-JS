@@ -29,8 +29,6 @@ const delay = function (func, wait, ...args) {
 
 export default delay;
 
-import delay from "./delay";
-
 //  Example usage:
 
 //  Define a function that will be executed after a delay.
