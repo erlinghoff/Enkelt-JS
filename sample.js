@@ -1,29 +1,47 @@
-// Selects a random set of items from an array.
-const sample = function(arr, num = 1, withoutReplacement = true) {
-  // Check if the number of items to be selected is greater than the length of the input array.
-  if (num > arr.length) {
-    throw new Error('The number of items to be selected must be less than or equal to the length of the input array');
-  }
+const sample = (input, num = 1, withoutReplacement = true) => {
+	// the sample function returns a random element from the input array, object, or string and returns
+	// an array of random elements with the length of the num parameter. If the withoutReplacement parameter
+	// is set to true, the function will return a random element without replacement. If the withoutReplacement
+	// parameter is set to false, the function will return a random element with replacement. If the num parameter
+	// is not set, the function will return a single random element.
 
-  // Create a Set object to store the selected items and an array of available indexes in the input array.
-  const items = new Set();
-  const availableIndexes = [...Array(arr.length).keys()];
+	const type = input.constructor.name;
 
-  // Use a while loop to select random items from the input array and add them to the set until the set has `num` items.
-  while (items.size < num) {
-    // Generate a random index in the available indexes array.
-    const randomIndex = Math.floor(Math.random() * availableIndexes.length);
+	// Check if the input is an array, object, or string
+	if (type !== "Array" && type !== "Object" && type !== "String") {
+		throw new Error("The input must be an array, object, or string");
+	}
 
-    // Use the random index to select an item from the input array and add it to the set.
-    items.add(arr[availableIndexes[randomIndex]]);
+	// Check if the num is a number greater than the length of the input
+	const inputLength =
+		type === "Object" ? Object.keys(input).length : input.length;
+	if (num > inputLength) {
+		throw new Error("The num cannot be greater than the length of the input");
+	}
 
-    // If the `withoutReplacement` option is true, remove the selected index from the `availableIndexes` array. Setting it to false might give you duplicate items in the output array.
-    if (withoutReplacement) {
-      availableIndexes.splice(randomIndex, 1);
-    }
-  }
-
-return [...items];
-}
+	// Get a random number based on the type of the input.
+	const randomNum =
+		type === "Object"
+			? Math.floor(Math.random() * inputLength)
+			: Math.random() * inputLength;
+	if (type === "Object") {
+		const keys = Object.keys(input);
+		const values = Object.values(input);
+		return Array.from({ length: num }, () => {
+			const randomNum = Math.floor(Math.random() * inputLength);
+			return { [keys[randomNum]]: values[randomNum] };
+		});
+	} else if (type === "String") {
+		const inputArray = input.split("");
+		return Array.from({ length: num }, () => {
+			const randomNum = Math.floor(Math.random() * inputLength);
+			return inputArray[randomNum];
+		});
+	}
+	return Array.from({ length: num }, () => {
+		const randomNum = Math.floor(Math.random() * inputLength);
+		return input[randomNum];
+	});
+};
 
 export default sample;
