@@ -1,4 +1,4 @@
-function getBestAudioFormat(forcedFormat) {
+function getBestAudioFormat(forcedFormat, skipFormats = []) {
 	// Check if the forcedFormat argument is provided and is a supported format
 	if (
 		forcedFormat &&
@@ -6,32 +6,27 @@ function getBestAudioFormat(forcedFormat) {
 			forcedFormat,
 		)
 	) {
+		// Ignore the skipFormats if the forcedFormat is provided
 		return forcedFormat;
 	}
 
-	// Check if the browser supports the opus format
-	if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
-		return "opus";
-	}
-	// Check if the browser supports the ogg format
-	if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
-		return "ogg";
+	// Define an array of audio formats to check
+	let audioFormats = ["opus", "ogg", "aac", "m4a", "mp3", "wav"];
+
+	// Remove the skipFormats from the array if they are provided
+	if (skipFormats.length > 0) {
+		audioFormats = audioFormats.filter(
+			(format) => !skipFormats.includes(format),
+		);
 	}
 
-	// Check if the browser supports the aac format
-	if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
-		return "aac";
+	// Check if the browser supports each audio format in the array
+	for (const format of audioFormats) {
+		if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
+			return format;
+		}
 	}
 
-	// Check if the browser supports the m4a format
-	if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
-		return "m4a";
-	}
-
-	// Check if the browser supports the mp3 format
-	if (typeof Audio === "function" && "canPlayType" in Audio.prototype) {
-		return "mp3";
-	}
 	// Use the wav format as a fallback
 	return "wav";
 }
