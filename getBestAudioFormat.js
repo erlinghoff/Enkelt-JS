@@ -30,3 +30,5 @@ function getBestAudioFormat(forcedFormat, skipFormats = []) {
 	// Use the wav format as a fallback
 	return "wav";
 }
+
+export default getBestAudioFormat;
