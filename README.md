@@ -1,4 +1,4 @@
-# Enkelt JS
+# Enkelt JS – One File, One Function: Enkelt JS Streamlines Your Code
 
 Enkelt JS provides extremely useful Javascript functions I use frequently.
 
